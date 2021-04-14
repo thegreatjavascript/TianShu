@@ -1,38 +1,24 @@
 <template>
-  <div class='container'>
-    <div class='title'>
-      <span>
-        Anti
-      </span>
-      <span>
-        OCR
-      </span>
-    </div>
-    <h2>在微博 / QQ / 微信上，某些文字发不出去？转成图片也发不出去？那你一定是没用 AntiOCR
-    </h2>
-    <div class='control-button'>
-      <div class='left'>
-        <el-button type="text" @click='domToCanvas'>文字竖排</el-button>
-        <el-button type="text">转动图片</el-button>
-        <el-button type="text">文字变形</el-button>
-      </div>
+  <div class="container">
+    <div class="control-button">
       <div>
-        <el-button type="text">关于</el-button>
-        <el-button @click='toImage' type="success" size="small" round>生成图片</el-button>
-        <el-button type="primary" size="small" round>下载图片</el-button>
+        <el-button @click="toImage" type="success" size="small" round
+          >生成图片</el-button
+        >
+        <el-button type="primary" size="small" @click="domToCanvas" round
+          >下载图片</el-button
+        >
       </div>
     </div>
-    <div class='sketchpad'>
-      <div class='edit-section'>
-        <!-- <el-input type="textarea" placeholder="请输入内容" v-model="textarea" maxlength="1000" rows='10' show-word-limit>
-        </el-input> -->
-        <div class='textarea' contenteditable="true">
-          {{textarea}}
+    <div class="sketchpad">
+      <div class="edit-section">
+        <div class="textarea" contenteditable="true">
+          {{ textarea }}
         </div>
       </div>
-      <div class='show-section'>
-        <!-- <canvas id="canvas" style="display:block" width="0" height="0"></canvas> -->
-        <img id="image" :src="image">
+      <div class="show-section">
+        <canvas id="canvas" style="display:block" width="0" height="0"></canvas>
+        <img id="image" :src="image" />
       </div>
     </div>
   </div>
@@ -55,10 +41,6 @@ export default {
   methods: {
     toImage() {
       const fontSize = this.fontSize;
-      function random(min, max) {
-        return Math.round(Math.random() * (max - min)) + min;
-      }
-
       const text = document.querySelector(".edit-section");
       const canvas = document.querySelector("#canvas");
       const context = canvas.getContext("2d");
@@ -80,42 +62,26 @@ export default {
         height: height,
         width: width
       }).then(canvas => {
-        let ctx = canvas.getContext("2d");
-        let data = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const imageData = canvas.toDataURL("image/jpeg", 1);
-        console.log("canvas data", imageData);
-        this.image = imageData;
-        // document.querySelector(".show-section").innerHTML = data;
+
+        let aLink = document.createElement("a");
+        aLink.style.display = "none";
+        aLink.href = imageData;
+        aLink.download = "图片.png";
+        // 触发点击-然后移除
+        document.body.appendChild(aLink);
+        aLink.click();
+        document.body.removeChild(aLink);
       });
     }
   }
 };
 </script>
 
-<style lang='scss'>
+<style lang="scss">
 .container {
   width: 100%;
   margin: auto;
-  .title {
-    width: fit-content;
-    margin: 50px auto 20px auto;
-    color: #000;
-    font-size: 2em;
-    font-weight: bold;
-    span {
-    }
-    span:last-child {
-      color: #ffffff;
-      background: #b11116;
-      padding: 5px;
-      border-radius: 7px;
-    }
-  }
-  h2 {
-    font-size: 1.3em;
-    margin: 2.5em auto 1.3em auto;
-    text-align: center;
-  }
   .control-button {
     width: fit-content;
     margin: 20px auto;
@@ -136,7 +102,9 @@ export default {
       width: 40%;
       margin-right: 3%;
       .textarea {
-        writing-mode: vertical-rl;
+        padding: 10px;
+        // writing-mode: vertical-rl;
+        width: 100%;
       }
     }
     .show-section {

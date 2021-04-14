@@ -1,15 +1,21 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Index from '@/components/Index'
+import Vue from "vue";
+import Router from "vue-router";
+import ToImage from "@/components/ToImage";
+import ToMarsText from "@/components/ToMarsText";
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'Index',
-      component: Index
+      path: "/",
+      name: "ToImage",
+      component: ToImage
+    },
+    {
+      path: "/marstext",
+      name: "MarsText",
+      component: ToMarsText
     }
   ]
-})
+});
