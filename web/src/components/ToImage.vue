@@ -11,8 +11,20 @@
       </div>
     </div>
     <div class="sketchpad">
+      <div class="tool">
+        <el-row>
+          <div class="block">
+            <span class="demonstration">调整字符间距</span>
+            <!-- 经过测试：0px ~ -5px 是人能看的范围，太小人眼不好辨认 -->
+            <el-slider
+              v-model="style.letterSpacing"
+              :format-tooltip="formatTooltip"
+            ></el-slider>
+          </div>
+        </el-row>
+      </div>
       <div class="edit-section">
-        <div class="textarea" contenteditable="true">
+        <div class="textarea" contenteditable="true" :style="styleObj">
           {{ textarea }}
         </div>
       </div>
@@ -33,14 +45,29 @@ export default {
     return {
       textarea:
         "暮投石壕村，有吏夜捉人。老翁逾墙走，老妇出门看。吏呼一何怒！妇啼一何苦。听妇前致词，三男邺城戍。一男附书至，二男新战死。存者且偷生，死者长已矣！室中更无人，惟有乳下孙。有孙母未去，出入无完裙。老妪力虽衰，请从吏夜归。急应河阳役，犹得备晨炊。夜久语声绝，如闻泣幽咽。天明登前途，独与老翁别。",
-      fontWeight: "400",
-      fontSize: 20,
+      style: {
+        letterSpacing: 20,
+        fontSize: 20,
+        fontWeight: "400"
+      },
       image: ""
     };
   },
+  computed: {
+    styleObj() {
+      return {
+        ...this.style,
+        "letter-spacing": -this.style.letterSpacing / 20 + "px"
+      };
+    }
+  },
   methods: {
+    // 缩小滑块量级
+    formatTooltip(val) {
+      return -val / 20;
+    },
     toImage() {
-      const fontSize = this.fontSize;
+      const fontSize = this.style.fontSize;
       const text = document.querySelector(".edit-section");
       const canvas = document.querySelector("#canvas");
       const context = canvas.getContext("2d");
@@ -48,6 +75,7 @@ export default {
       canvas.width = text.offsetWidth;
       canvas.height = text.offsetHeight;
 
+      context.style = "letter-spacing: -5px; color: red;";
       context.font = `${fontSize}px sans-serif`;
       context.textBaseline = "top";
       context.wrapText(this.textarea, 0, 0, canvas.width, 20);
