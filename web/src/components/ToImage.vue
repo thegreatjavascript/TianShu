@@ -92,7 +92,6 @@ export default {
       context.wrapText(this.textarea, 0, 0, canvas.width, 20);
     },
     domToCanvas() {
-      alert("mmmmm")
       let screenShot = document.querySelector(".textarea");
       let width = screenShot.offsetWidth;
       let height = screenShot.offsetHeight;
