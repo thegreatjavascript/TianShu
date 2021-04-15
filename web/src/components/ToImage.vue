@@ -50,8 +50,17 @@ export default {
         fontSize: 20,
         fontWeight: "400"
       },
-      image: ""
+      image: "",
+
     };
+  },
+  watch:{
+    style:{
+      handler(){
+        this.toImage()
+      },
+      deep : true
+    }
   },
   computed: {
     styleObj() {
@@ -74,13 +83,16 @@ export default {
 
       canvas.width = text.offsetWidth;
       canvas.height = text.offsetHeight;
-
+      context.clearRect(0 , 0 , canvas.width , canvas.height)
       context.style = "letter-spacing: -5px; color: red;";
+      console.log(this.style.letterSpacing)
+      canvas.style.letterSpacing = this.style.letterSpacing / -20 + "px"
       context.font = `${fontSize}px sans-serif`;
       context.textBaseline = "top";
       context.wrapText(this.textarea, 0, 0, canvas.width, 20);
     },
     domToCanvas() {
+      alert("mmmmm")
       let screenShot = document.querySelector(".textarea");
       let width = screenShot.offsetWidth;
       let height = screenShot.offsetHeight;
