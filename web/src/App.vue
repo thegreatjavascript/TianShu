@@ -13,6 +13,9 @@
         <el-button @click="$router.push('/marstext')" size="small" round
           >文字转火星文</el-button
         >
+        <el-button @click="$router.push('/dancetext')" size="small" round
+          >文字转倾斜</el-button
+        >
       </el-row>
     </div>
     <div class="sketchpad">

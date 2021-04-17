@@ -16,6 +16,11 @@ export default new Router({
       path: "/marstext",
       name: "MarsText",
       component: ToMarsText
+    },
+    {
+      path : "/dancetext",
+      name :"DanceText",
+      component : ()=>import("@/components/DanceText")
     }
   ]
 });
