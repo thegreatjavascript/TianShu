@@ -14,15 +14,13 @@
       />
     </ToolSide>
     <div class="sketchpad">
-      <div class="edit-section">
-        <textarea class="textarea" v-model="textarea"></textarea>
-      </div>
-      <div class="show-section">
+      <textarea class="content" v-model="content"></textarea>
+      <div class="result">
         <canvas id="canvas" style="display:block" width="0" height="0"></canvas>
         <img id="image" :src="image" />
       </div>
     </div>
-    <download @click.native="download"></download>
+    <download :canvasSelector="'#canvas'"></download>
   </div>
 </template>
 
@@ -34,7 +32,7 @@ import Download from "./common/Download";
 export default {
   data() {
     return {
-      textarea:
+      content:
         "暮投石壕村，有吏夜捉人。老翁逾墙走，老妇出门看。吏呼一何怒！妇啼一何苦。听妇前致词，三男邺城戍。一男附书至，二男新战死。存者且偷生，死者长已矣！室中更无人，惟有乳下孙。有孙母未去，出入无完裙。老妪力虽衰，请从吏夜归。急应河阳役，犹得备晨炊。夜久语声绝，如闻泣幽咽。天明登前途，独与老翁别。",
       style: {
         letterSpacing: "-2px",
@@ -67,7 +65,7 @@ export default {
     drawText() {
       // 把字符画到 canvas 中
       const fontSize = this.style.fontSize;
-      const text = document.querySelector(".edit-section");
+      const text = document.querySelector(".content");
       const canvas = document.querySelector("#canvas");
       const ctx = canvas.getContext("2d");
 
@@ -80,21 +78,7 @@ export default {
       ctx.textBaseline = "top";
 
       ctx.beginPath();
-      ctx.wrapText(this.textarea, 0, 0, canvas.width, 20);
-    },
-    download() {
-      // canvas 转图片数据，然后自动下载图片
-      const canvas = document.querySelector("#canvas");
-      const imageData = canvas.toDataURL("image/png");
-
-      let aLink = document.createElement("a");
-      aLink.style.display = "none";
-      aLink.href = imageData;
-      aLink.download = "图片.png";
-      // 触发点击-然后移除
-      document.body.appendChild(aLink);
-      aLink.click();
-      document.body.removeChild(aLink);
+      ctx.wrapText(this.content, 0, 0, canvas.width, 20);
     }
   },
   components: {
@@ -112,16 +96,11 @@ export default {
     display: flex;
     align-content: center;
     justify-content: center;
-    .edit-section {
+    .content {
+      padding: 10px;
       width: 40%;
-      margin-right: 3%;
-      .textarea {
-        padding: 10px;
-        // writing-mode: vertical-rl;
-        width: 100%;
-      }
     }
-    .show-section {
+    .result {
       width: 40%;
       height: 200px;
     }
