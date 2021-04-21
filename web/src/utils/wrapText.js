@@ -30,7 +30,7 @@ CanvasRenderingContext2D.prototype.wrapText = function(
     var metrics = context.measureText(testLine)
     var testWidth = metrics.width
     if (testWidth > maxWidth && n > 0) {
-      console.log('text', line, '| line-height:', lineHeight)
+      // console.log('text', line, '| line-height:', lineHeight)
       context.fillText(line, x, y)
       line = arrText[n]
       y += lineHeight

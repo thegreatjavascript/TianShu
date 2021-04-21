@@ -1,5 +1,5 @@
 <template>
-  <div class="title">
+  <div class="title" @click="$router.push('/')">
     <span>
       天
     </span>
@@ -15,6 +15,7 @@ export default {};
 
 <style scoped lang="scss">
 .title {
+  cursor: pointer;
   width: fit-content;
   margin: 50px auto 20px auto;
   color: #000;

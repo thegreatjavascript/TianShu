@@ -1,26 +1,16 @@
 <template>
-  <div id="app">
-    <logo></logo>
-    <h2>
-      在微博 / QQ /
-      微信上，某些文字发不出去？转成图片也发不出去？那你一定是没用此工具
-    </h2>
-    <div class="control-button">
-      <el-row>
-        <el-button @click="$router.push('/')" size="small" round
-          >文字转图片</el-button
-        >
-        <el-button @click="$router.push('/marstext')" size="small" round
-          >文字转火星文</el-button
-        >
-        <el-button @click="$router.push('/dancetext')" size="small" round
-          >文字转倾斜</el-button
-        >
-      </el-row>
-    </div>
-    <div class="sketchpad">
+  <div class='home'>
+    <nav>
+      <logo></logo>
+      <h2 class="top-50px" @click="$router.push('/')">文字转图片</h2>
+      <h2 @click="$router.push('/marstext')">
+        文字转火星文
+      </h2>
+      <h2 @click="$router.push('/dancetext')">文字转倾斜</h2>
+    </nav>
+    <section>
       <router-view></router-view>
-    </div>
+    </section>
   </div>
 </template>
 
@@ -36,19 +26,55 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#app {
+.home {
   width: 100%;
   margin: auto;
-  h2 {
-    font-size: 1.3em;
-    margin: 2.5em auto 1.3em auto;
-    text-align: center;
-  }
 
   .control-button {
     width: fit-content;
     margin: 20px auto;
     display: flex;
   }
+  nav {
+    width: 200px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    // background: red;
+    h2 {
+      font-size: 1em;
+      text-align: center;
+      padding: 0.42rem 1.375rem;
+      margin: 0;
+      &.top-50px {
+        margin-top: 70px;
+      }
+      &:hover {
+        background: #eeeeee;
+      }
+    }
+  }
+  section {
+    margin-left: 200px;
+  }
+}
+</style>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+}
+nav::after {
+  box-shadow: 2px 0 3px 0 rgb(0 0 0 / 7%);
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 198px;
+  color: rgba(0, 0, 0, 0.07);
+  content: "";
+  height: 100%;
+  width: 2px;
 }
 </style>
