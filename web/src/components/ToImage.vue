@@ -12,6 +12,16 @@
         value="15"
         @change="fontSizeChanged"
       />
+      <!-- <p>字体大小：</p>
+      <p>
+        <input
+          type="number"
+          min="0"
+          max="30"
+          value="15"
+          @change="fontSizeChanged"
+        /><span>px</span>
+      </p> -->
     </ToolSide>
     <div class="sketchpad">
       <textarea class="content" v-model="content"></textarea>
@@ -64,7 +74,6 @@ export default {
     },
     drawText() {
       // 把字符画到 canvas 中
-      const fontSize = this.style.fontSize;
       const text = document.querySelector(".content");
       const canvas = document.querySelector("#canvas");
       const ctx = canvas.getContext("2d");
@@ -74,7 +83,10 @@ export default {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       canvas.style.letterSpacing = this.style.letterSpacing;
-      ctx.font = `${fontSize} sans-serif`;
+      console.log(this.style.fontSize);
+      // canvas.style.fontSize = this.style.fontSize;
+      // ctx.fontSize = this.style.fontSize
+      ctx.font = `${this.style.fontSize} serif`;
       ctx.textBaseline = "top";
 
       ctx.beginPath();
@@ -90,19 +102,19 @@ export default {
 
 <style lang="scss">
 .container {
-  width: 100%;
+  width: calc(100% - 210px);
   margin-left: 210px;
+  height: 100vh;
   .sketchpad {
+    height: 100%;
     display: flex;
-    align-content: center;
-    justify-content: center;
-    .content {
-      padding: 10px;
-      width: 40%;
-    }
+    align-items: center;
+    justify-content: space-around;
+    .content,
     .result {
-      width: 40%;
-      height: 200px;
+      padding: 10px;
+      width: 246px;
+      min-height: 400px;
     }
   }
 }

@@ -125,38 +125,14 @@ export default {
       canvas.height = text.offsetHeight;
       context.clearRect(0, 0, canvas.width, canvas.height);
       context.style = "letter-spacing: -5px; color: red;";
-      //   canvas.style.letterSpacing = this.style.letterSpacing / -20 + "px"
       context.font = `${fontSize}px sans-serif`;
       context.textBaseline = "top";
       context.wrapText(this.textarea, 0, 0, canvas.width, 20);
-      // html2canvas(document.querySelector(".textarea")).then(ncanvas => {
-      //   document.body.appendChild(ncanvas);
-      //   // let body = document.querySelector("body")
-      //   // let ic = document.getElementById("canvas")
-      //   // body.replaceChild(ic , ncanvas)
-      // });
     },
     domToCanvas() {
       let screenShot = document.querySelector(".textarea");
       let width = screenShot.offsetWidth;
       let height = screenShot.offsetHeight;
-      // html2canvas(screenShot, {
-      //   allowTaint: false,
-      //   useCORS: false,
-      //   height: height,
-      //   width: width
-      // }).then(canvas => {
-      //   const imageData = canvas.toDataURL("image/jpeg", 1);
-
-      //   let aLink = document.createElement("a");
-      //   aLink.style.display = "none";
-      //   aLink.href = imageData;
-      //   aLink.download = "图片.png";
-      //   // 触发点击-然后移除
-      //   document.body.appendChild(aLink);
-      //   aLink.click();
-      //   document.body.removeChild(aLink);
-      // });
     }
   }
 };
