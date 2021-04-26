@@ -2,8 +2,41 @@
   <div class="container">
     <ToolSide>
       <!-- 经过测试：0px ~ -5px 是人能看的范围，太小人眼不好辨认 -->
+      <!-- 放大10倍 -->
       <p>文字间距：</p>
-      <input type="range" min="0" max="50" value="20" @input="sliderChanged" />
+      <input
+        type="range"
+        min="0"
+        max="50"
+        value="20"
+        @input="letterSpacingChanged"
+      />
+      <p>文字高度：</p>
+      <!-- 放大10倍 -->
+      <input
+        type="range"
+        min="0"
+        max="50"
+        value="10"
+        @input="textHeightChanged"
+      />
+      <p>文字宽度：</p>
+      <!-- 放大10倍 -->
+      <input
+        type="range"
+        min="0"
+        max="50"
+        value="10"
+        @input="textWidthChanged"
+      />
+      <p>文字粗细：</p>
+      <input
+        type="range"
+        min="1"
+        max="9"
+        value="4"
+        @input="fontWeightChanged"
+      />
       <p>文字大小：</p>
       <input
         type="number"
@@ -47,7 +80,11 @@ export default {
       style: {
         letterSpacing: "-2px",
         fontSize: "20px",
-        fontWeight: "400"
+        fontWeight: "400",
+        textHeight: 1, // 文字高度
+        textWidth: 1, // 文字宽度
+        skewX: "50deg" // 倾斜角度，正是向左。
+        // transform: `skewX(` + skewX + `deg) scaleY(` + spanScaleY + `)`,
       },
       image: ""
     };
@@ -60,15 +97,29 @@ export default {
       deep: true
     }
   },
+  mounted() {
+    this.drawText();
+  },
   methods: {
     fontSizeChanged(event) {
       const value = event.target.value;
       this.style.fontSize = value + "px";
     },
+    fontWeightChanged(event) {
+      this.style.fontWeight = event.target.value * 100;
+    },
+    textHeightChanged(event) {
+      const value = event.target.value / 10;
+      this.style.textHeight = value <= 0.2 ? 0.2 : value;
+    },
+    textWidthChanged(event) {
+      const value = event.target.value / 10;
+      this.style.textWidth = value <= 0.2 ? 0.2 : value;
+    },
     // 目标：0 ～ -5
     // 实际：0 ～ 50
-    // 所以是放大了10倍，且需要反转
-    sliderChanged(event) {
+    // 所以是放大了10倍，且需要正负反转
+    letterSpacingChanged(event) {
       const value = event.target.value;
       this.style.letterSpacing = -value / 10 + "px";
     },
@@ -83,10 +134,9 @@ export default {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       canvas.style.letterSpacing = this.style.letterSpacing;
-      console.log(this.style.fontSize);
-      // canvas.style.fontSize = this.style.fontSize;
-      // ctx.fontSize = this.style.fontSize
-      ctx.font = `${this.style.fontSize} serif`;
+      ctx.scale(this.style.textWidth, this.style.textHeight);
+      ctx.rotate((10 * Math.PI) / 180);
+      ctx.font = `${this.style.fontWeight} ${this.style.fontSize} serif`;
       ctx.textBaseline = "top";
 
       ctx.beginPath();
